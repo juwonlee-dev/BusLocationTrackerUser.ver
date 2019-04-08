@@ -16,7 +16,7 @@ import java.net.URL;
 public class DB_GetData {
 
     // DB Connection
-    private static final String address = "http://218.159.255.118/get_php_conection.php";  //주소 바뀜
+    private static final String address = "http://ipAddress/get_php_conection.php";  //주소 바뀜
     private static final String TAG_RESULTS = "result";
     private static final String TAG_ID = "str_user_id";
     private static final String TAG_TIME = "str_datetime";
