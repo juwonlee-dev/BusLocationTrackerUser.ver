@@ -2,6 +2,7 @@ package com.shuttlebus.user;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,12 +17,12 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-//    private BusProgress busProgress;
     private Distance distance;
 
     private DB_GetData getData;
     private String lat;
     private String lon;
+    private Button toRecycler_btn;
     private Button getData_btn;
     private SeekBar seekBar;
     private SeekBar seekBar2;
@@ -50,12 +51,24 @@ public class MainActivity extends AppCompatActivity {
         tvApart = (TextView) findViewById(R.id.progressGong);
         proStation = (TextView) findViewById(R.id.progressStation);
         location_tv = (TextView) findViewById(R.id.location_tv);
+        toRecycler_btn = (Button) findViewById(R.id.toRecycler_btn);
         getData_btn = (Button) findViewById(R.id.getData_btn);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar2 = (SeekBar) findViewById(R.id.seekBar2);
 
 
-//        busProgress = new BusProgress(maxDis);
+//        RoadData roadData = new RoadData(); 오류
+//        roadData.getData();
+
+        toRecycler_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), BusActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
         double d = distance.distanceToApart(37.660935,127.322490)*0.001;
         Log.e("maxDis: "+ d, toString());
         maxDis = (distance.distanceToApart(37.660935,127.322490)*0.001);
@@ -88,14 +101,18 @@ public class MainActivity extends AppCompatActivity {
         getData_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getData.getData();
                 location_tv.setText("로딩중");
+                try {
+                    getData.getData();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
 
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            Thread.sleep(2000);
+                            Thread.sleep(1000);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

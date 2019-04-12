@@ -18,8 +18,9 @@ public class Distance implements Station {
 
     // ap = 아파트 , mSe1 = 마석역 1번출구 , m
 
-    double allDistance = 0;
-    double distance[] = new double[8];
+    private double allDistance = 0;
+    private double distance[] = new double[8];
+
 
     public Distance(){
         setGps();
@@ -82,12 +83,33 @@ public class Distance implements Station {
         return currentDistance;
     }
 
+//    public double getDistanceTo(Location location, double lat, double lon){
+//        float dis[] = new float[0];
+//        Location.distanceBetween(location.getLatitude(),location.getLongitude(),lat,lon, dis);
+//        return (double) dis[0];
+//    }
 
-    public double getDistance(Location start,Location end){
-        double distance = start.distanceTo(end);
-        return distance;
+//    public double getDistanceTo(double sLat,double sLon, double eLat, double eLon){
+//        float dis[] = new float[0];
+//        Location.distanceBetween(sLat,sLon,eLat,eLon, dis);
+//        return (double) dis[0];
+//    }
+
+    public double getDistanceTo(BusStation start, BusStation end){
+
+        double dis;
+        Location busStart = new Location("");
+        Location busEnd = new Location("");
+        busStart.setLatitude(start.getLatitude());
+        busStart.setLongitude(start.getLongitude());
+        busEnd.setLatitude(end.getLatitude());
+        busEnd.setLongitude(end.getLongitude());
+
+        dis = busStart.distanceTo(busEnd);
+
+        Log.e("MaxDistance: "+dis,toString());
+        return dis;
     }
-
 
     public double allDistance(){
 
@@ -117,8 +139,19 @@ public class Distance implements Station {
 
         for(int i = 0; i<distance.length;i++)
             allDistance += distance[i];
-
         return allDistance;
+    }
+
+    public double getAllDistance(){
+        for(int i = 0; i<distance.length;i++)
+            allDistance += distance[i];
+        return allDistance;
+    }
+
+    public double getDistance(int index){
+        if(index>distance.length || index < 0)
+            return -1;
+        return distance[index];
     }
 
 }

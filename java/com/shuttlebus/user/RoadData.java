@@ -1,4 +1,4 @@
-package com.shuttlebus.user;
+﻿package com.shuttlebus.user;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -9,14 +9,16 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class DB_GetData {
-
+public class RoadData {
     // DB Connection
-    private static final String address = "http://address//get_php_conection.php";
+    private static final String address = "address를 넣으시오.;  //주소 바뀜
+    private static final String TAG_DATA="data";
+    private static final String TAG_SPEED="avgspeed";
+
+
     private static final String TAG_RESULTS = "result";
     private static final String TAG_ID = "str_user_id";
     private static final String TAG_TIME = "str_datetime";
@@ -25,9 +27,10 @@ public class DB_GetData {
 
     // json
     private String myJSON;
-    private JSONArray locations = null;
+    private JSONArray speed = null;
 
     // value getting at DB
+    private String avgSpeed;
     private String id;
     private String time;
     private String latitude;
@@ -39,16 +42,16 @@ public class DB_GetData {
         if(myJSON != null){
             try {
                 JSONObject jsonObj = new JSONObject(myJSON);
-                locations = jsonObj.getJSONArray(TAG_RESULTS);
-                JSONObject c = locations.getJSONObject(0);
+                speed = jsonObj.getJSONArray(TAG_DATA);
+                JSONObject c = speed.getJSONObject(0);
 
-                id = c.getString(TAG_ID);
-                time = c.getString(TAG_TIME);
-                latitude = c.getString(TAG_LAT);
-                longitude = c.getString(TAG_LON);
-                Log.e("lat: " + latitude + ", lon: " + longitude, jsonObj.toString());
+                for(int i=0; i<speed.length();i++){
+                    avgSpeed = c.getString(TAG_SPEED);
+                }
+                Log.e("avgSpeed: " + avgSpeed , jsonObj.toString());
 
             } catch (JSONException e) {
+                Log.e("json error: "+ e, toString());
                 e.printStackTrace();
             }
         }
@@ -93,20 +96,4 @@ public class DB_GetData {
         g.execute(address);
     }
 
-
-    public String getDBId(){
-        return this.id;
-    }
-
-    public String getDBTime(){
-        return this.time;
-    }
-
-    public String getDBLatitude(){
-        return this.latitude;
-    }
-
-    public String getDBLongitude(){
-        return this.longitude;
-    }
 }
