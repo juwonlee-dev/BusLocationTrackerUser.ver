@@ -1,4 +1,4 @@
-﻿package com.shuttlebus.user;
+package com.shuttlebus.user;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -14,7 +14,7 @@ import java.net.URL;
 
 public class RoadData {
     // DB Connection
-    private static final String address = "address를 넣으시오.;  //주소 바뀜
+    private static final String address = "http://openapi.its.go.kr/api/NTrafficInfo?key=1552962283383&ReqType=2&MinX=127.290000&MaxX=127.330000&MinY=37.640000&MaxY=37.660000";  //주소 바뀜
     private static final String TAG_DATA="data";
     private static final String TAG_SPEED="avgspeed";
 

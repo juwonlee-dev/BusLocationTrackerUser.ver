@@ -1,8 +1,10 @@
 package com.shuttlebus.user;
 
+import android.util.Log;
+
 public class Scheduler {
 
-    TimeTable timeTable[];
+   TimeTable timeTable[];
 
     public void makeTimeTable(){
         TimeTable[] timeTable = {
@@ -30,6 +32,7 @@ public class Scheduler {
                 new TimeTable(20,00),
                 new TimeTable(20,20),
         };
+        Log.e("[timeTable]:"+timeTable.length,toString());
         this.timeTable = timeTable;
     }
 

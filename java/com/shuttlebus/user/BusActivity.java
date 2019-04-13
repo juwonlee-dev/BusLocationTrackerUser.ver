@@ -1,6 +1,8 @@
 package com.shuttlebus.user;
 
 import android.annotation.SuppressLint;
+import android.support.design.animation.MotionSpec;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -43,6 +45,7 @@ public class BusActivity extends AppCompatActivity {
 
     //@BindView(R.id.fab)
     //FloatingActionButton fab;
+    private TextView busTimeTextView;
     private TextView noItemTextView;
     private FloatingActionButton fab;
     private BusRecyclerViewAdapter mAdapter;
@@ -63,7 +66,7 @@ public class BusActivity extends AppCompatActivity {
 
         // ButterKnife.bind(this);
         findViews();
-        initToolbar("Bus ");
+        initToolbar("");
         setAdapter();
 
 
@@ -71,33 +74,11 @@ public class BusActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(BusActivity.this, "ki mo", Toast.LENGTH_SHORT).show();
-
-                try{
-                    getData.getData();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-                try{
-                    Thread.sleep(1000);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                for(int i= 0; i<modelList.size() -1 ;i++){
-//                                    modelList.get(i).getSeekBar().setProgress();
-                                }
-                            }
-                        });
-                    }
-                }).start();
-
+//                Toast.makeText(BusActivity.this, "로딩중", Toast.LENGTH_SHORT).show();
+//                float y = fab.getY();
+                modelList.clear();
+                setAdapter();
+                Snackbar.make(v,"로딩중",Snackbar.LENGTH_SHORT).show();
 
 
             }
@@ -110,6 +91,7 @@ public class BusActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         noItemTextView = (TextView) findViewById(R.id.noItemText);
+        busTimeTextView = (TextView) findViewById(R.id.busTimeText);
     }
 
     public void initToolbar(String title) {
@@ -129,43 +111,79 @@ public class BusActivity extends AppCompatActivity {
         Log.e("course: "+busStation.getCourse(),toString());
         busStation.checkCourse();
 
-        initToolbar("Bus "+busStation.getHour()+"시"+busStation.getMinute()+"분 출발");;
-        Log.e("Bus "+busStation.getHour()+"시"+busStation.getMinute()+"분 출발",toString());
+        Calendar cal = Calendar.getInstance();
 
-        if(busStation.station == null){
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int day = cal.get(Calendar.DATE);
+
+        String today;
+        if (month <= 9)
+            today = year + "0" + month;
+        else {
+            today = year + "" + month;
+        }
+
+        if (day <= 9) {
+            today = today + "0" + day;
+        } else {
+            today += day;
+        }
+
+        // 공휴일 판단.
+        if(Holiday.isHoliday(today)){
             noItemTextView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
             fab.setVisibility(View.GONE);
+            noItemTextView.setText("공휴일은 운행하지 않습니다.");
+
         }
-        else{
-            noItemTextView.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            fab.setVisibility(View.VISIBLE);
-            for(int i=0; i<busStation.station.length;i++) {
-                try {
-//                Log.e("111]: "+ distanceTo.getDistanceTo(busStation.station[i], busStation.station[i + 1]),toString());
-                    busStation.setMaxDis(distanceTo.getDistanceTo(busStation.getBusStation(i),busStation.getBusStation(i+1)), i);
-                }catch (Exception e){
-                    e.printStackTrace();
+        else {
+
+            if (busStation.station == null) {
+                noItemTextView.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.INVISIBLE);
+//                fab.setVisibility(View.GONE);
+                fab.setVisibility(View.VISIBLE);
+//                busTimeTextView.setText("다음 운행 시간: ");
+            } else {
+                noItemTextView.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+                fab.setVisibility(View.VISIBLE);
+                busTimeTextView.setText("운행 시작 시간: " + busStation.getHour() + "시 "
+                        + busStation.getMinute() + "분");
+
+                Log.e("Bus " + busStation.getHour() + "시" + busStation.getMinute() + "분 출발", toString());
+                for (int i = 0; i < busStation.station.length; i++) {
+                    try {
+                      busStation.setMaxDis(distanceTo.getDistanceTo(busStation.getBusStation(i), busStation.getBusStation(i + 1)), i);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    if (i != busStation.station.length - 1) {
+                        modelList.add(new AbstractModel(busStation.getBusStation(i).getStationName(), "거리: " + String.format("%.2fKm", busStation.getMaxDis(i) * 0.001)
+                                , busStation.getBusStation(i + 1).getStationName()));
+
+                    }
                 }
 
-                if(i != busStation.station.length - 1){
-                    modelList.add(new AbstractModel(busStation.getBusStation(i).getStationName(),"거리: "+String.format("%.2fKm",busStation.getMaxDis(i)*0.001)
-                            ,busStation.getBusStation(i+1).getStationName()));
-//                modelList.add(new AbstractModel())
-                }
+//                for()
+
+
+
+
             }
+
         }
-
-
         mAdapter = new BusRecyclerViewAdapter(BusActivity.this, modelList);
+
 
         recyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.progressbus, (ViewGroup) findViewById(R.id.progressBus));
 
         recyclerView.setLayoutManager(layoutManager);
 
@@ -175,7 +193,7 @@ public class BusActivity extends AppCompatActivity {
 
             public void onEndOfScrollReached(RecyclerView rv) {
 
-                Toast.makeText(BusActivity.this, "End of the RecyclerView reached. Do your pagination stuff here", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(BusActivity.this, "End of the RecyclerView reached. Do your pagination stuff here", Toast.LENGTH_SHORT).show();
 
                 scrollListener.disableScrollListener();
             }

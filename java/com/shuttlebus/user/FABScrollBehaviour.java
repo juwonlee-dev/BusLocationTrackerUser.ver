@@ -28,7 +28,7 @@ public class FABScrollBehaviour extends CoordinatorLayout.Behavior<FloatingActio
         if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
 //            child.hide();
 
-            child.hide(new FloatingActionButton.OnVisibilityChangedListener() {
+            child.hide( new FloatingActionButton.OnVisibilityChangedListener() {
                 @SuppressLint("RestrictedApi")
                 @Override
                 public void onHidden(FloatingActionButton fab) {

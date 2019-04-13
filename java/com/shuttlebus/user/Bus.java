@@ -31,30 +31,30 @@ public class Bus {
 //        }
 //    }
 
-    public char busRun(){
-        Scheduler scheduler = new Scheduler();
-        Calendar cal = Calendar.getInstance();
-        scheduler.makeTimeTable();
-        for(int i = 0 ; i<scheduler.timeTable.length;i++){
-            /*
-             * 시간 확인
-             */
-            if(scheduler.timeTable[i].getHour() == cal.get(Calendar.HOUR_OF_DAY)){
-                /*
-                 * 분 확인
-                 */
-                //                       20,40   50
-                if(scheduler.timeTable[i].getMinute() <= cal.get(Calendar.MINUTE)){
-
-                    if(scheduler.timeTable[i+1].getHour() == cal.get(Calendar.HOUR_OF_DAY)){
-                        if(scheduler.timeTable[i+1].getMinute() <= cal.get(Calendar.MINUTE)){
-                            return scheduler.timeTable[i+1].getCourse();
-                        }
-                        return scheduler.timeTable[i].getCourse();
-                    }
-                }
-            }
-        }
-        return '1';
-    }
+//    public char busRun(){
+//        Scheduler scheduler = new Scheduler();
+//        Calendar cal = Calendar.getInstance();
+//        scheduler.makeTimeTable();
+//        for(int i = 0 ; i<scheduler.timeTable.length;i++){
+//            /*
+//             * 시간 확인
+//             */
+//            if(scheduler.timeTable[i].getHour() == cal.get(Calendar.HOUR_OF_DAY)){
+//                /*
+//                 * 분 확인
+//                 */
+//                //                       20,40   50
+//                if(scheduler.timeTable[i].getMinute() <= cal.get(Calendar.MINUTE)){
+//
+//                    if(scheduler.timeTable[i+1].getHour() == cal.get(Calendar.HOUR_OF_DAY)){
+//                        if(scheduler.timeTable[i+1].getMinute() <= cal.get(Calendar.MINUTE)){
+//                            return scheduler.timeTable[i+1].getCourse();
+//                        }
+//                        return scheduler.timeTable[i].getCourse();
+//                    }
+//                }
+//            }
+//        }
+//        return '1';
+//    }
 }

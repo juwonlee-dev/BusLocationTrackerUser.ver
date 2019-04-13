@@ -9,12 +9,6 @@ public class BusProgress {
 
     private int progress;
     private double maxDis;
-//    private static int index = 0;
-//    private double latitude;
-//    private double longitude;
-
-
-
 
 
     public BusProgress(double maxDis){
@@ -22,18 +16,17 @@ public class BusProgress {
     }
 
     // 진행률
-//    public int getProgress(Location location, double curLat, double curLon){
-////        double distance = (distanceTo.getDistanceTo(location,curLat, curLon) * 0.001);
-//        Log.e("distanceToApart: " + distance, toString());
-//
-//        if ((maxDis - distance) > 0) {
-//            progress = (int) ((maxDis - distance) / maxDis * 100);
-//        } else {
-//            progress = 0;
-//        }
-//
-//        return progress;
-//    }
+    public int getProgress(int max){
+        double distance = 0;
+        Log.e("distance" + distance, toString());
+
+        if ((max - distance) > 0) {
+            progress = (int) ((max - distance) / max * 100);
+        } else {
+            progress = 0;
+        }
+        return progress;
+    }
 //
 //    public int getProgress(double sLat, double sLon, double eLat, double eLon){
 ////        double distance = (distanceTo.getDistanceTo(sLat, sLon ,eLat, eLon) * 0.001);

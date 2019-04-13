@@ -161,12 +161,12 @@ public class MainActivity extends AppCompatActivity {
                                     seekBar2.setProgress(progressStation);
                                     tvApart.setText("진행률: " + progress + "%\n남은거리: " + String.format("%.2fKm", dis));
                                     proStation.setText("진행률: " + progressStation + "%\n남은거리: " + String.format("%.2fKm", disStation));
-                                    Log.e("[UiThread]", getData.toString());
+//                                    Log.e("[UiThread]", getData.toString());
                                 }
                             }
                         });
-                        Log.e("progress: " + progress, toString());
-                        Log.e("progressStation: " + progressStation, toString());
+//                        Log.e("progress: " + progress, toString());
+//                        Log.e("progressStation: " + progressStation, toString());
                     }
                 }).start();
             }

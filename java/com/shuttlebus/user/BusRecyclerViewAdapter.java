@@ -42,7 +42,35 @@ public class BusRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         return new ViewHolder(view);
     }
-
+    private void startAnimation() {
+//
+//        btnCreate.setTranslationY(2 * getResources().getDimensionPixelOffset(R.dimen.btn_fab_size));
+//
+//        int actionbarSize = Utils.dpToPx(56);
+//        toolbar.setTranslationY(-actionbarSize);
+//        ivLogo.setTranslationY(-actionbarSize);
+//        inboxMenuItem.getActionView().setTranslationY(-actionbarSize);
+//
+//        toolbar.animate()
+//                .translationY(0)
+//                .setDuration(ANIM_DURATION_TOOLBAR)
+//                .setStartDelay(300);
+//        ivLogo.animate()
+//                .translationY(0)
+//                .setDuration(ANIM_DURATION_TOOLBAR)
+//                .setStartDelay(400);
+//        inboxMenuItem.getActionView().animate()
+//                .translationY(0)
+//                .setDuration(ANIM_DURATION_TOOLBAR)
+//                .setStartDelay(500)
+//                .setListener(new AnimatorListenerAdapter() {
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        startContentAnimation();
+//                    }
+//                })
+//                .start();
+    }
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
@@ -56,10 +84,23 @@ public class BusRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             genericViewHolder.itemTxtEnd.setText(model.getEnd());
 
 
+
             if(position != 0){
                 genericViewHolder.seekBar.setThumb(null);
+                genericViewHolder.seekBar.setVisibility(View.INVISIBLE);
             }
             genericViewHolder.seekBar.setProgress(0);
+
+//            for(int i = 0 ; i<=position; i++){
+//                if(position)
+//            }
+            if(position == 0){
+                if(genericViewHolder.seekBar.getProgress() >= 98){
+
+                }
+            }
+
+
 
 
 //            if(position == 2)
@@ -75,6 +116,18 @@ public class BusRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 //                genericViewHolder.seekBar.setPadding(0, 0, 0, 0);
 
 
+            genericViewHolder.itemView.setTranslationX(300);
+            genericViewHolder.itemView.setAlpha(0.f);
+            genericViewHolder.itemView.setScaleX(0.8f);
+            genericViewHolder.itemView.setScaleY(0.6f);
+            genericViewHolder.itemView.animate()
+                    .translationX(0)
+                    .alpha(1.f)
+                    .scaleX(1.f)
+                    .scaleY(1.f)
+                    .setDuration(300)
+                    .setStartDelay(100)
+                    .start();
         }
 
     }
@@ -130,12 +183,13 @@ public class BusRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             this.itemTxtMessage = (TextView) itemView.findViewById(R.id.item_txt_message);
             this.itemTxtEnd = (TextView) itemView.findViewById(R.id.item_txt_end);
 
-//            seekBar.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    return true;
-//                }
-//            });
+
+            seekBar.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -1,5 +1,7 @@
 package com.shuttlebus.user;
 
+import android.util.Log;
+
 import java.util.Calendar;
 
 public class BusStation implements Station{
@@ -101,6 +103,8 @@ public class BusStation implements Station{
             length = station.length;
             this.station = station;
         }
+        else
+            this.station = null;
         maxDis  = new double[length];
     }
 
@@ -108,32 +112,41 @@ public class BusStation implements Station{
         Scheduler scheduler = new Scheduler();
         Calendar cal = Calendar.getInstance();
         scheduler.makeTimeTable();
+
         int curhour = cal.get(Calendar.HOUR_OF_DAY);
         int curminute = cal.get(Calendar.MINUTE);
 
+//        int currentTime = Integer.parseInt("19"+curhour+""+curminute);
+//        // 시간 비교를 위한 변수
+//        if(curminute <10) {
+//            currentTime = Integer.parseInt("19"+curhour+"0"+curminute);
+//        }
+
         for(int i = 0 ; i<scheduler.timeTable.length;i++){
             /*
-             * 시간 확인 8 10
+             * 시간 확인
              */
             if(scheduler.timeTable[i].getHour() == curhour) {
+//                Log.e("hour:"+curhour,toString());
                 /*
                  * 분 확인
                  */
-                //                       10,50   20
+                //          12시 40분
                 if(scheduler.timeTable[i].getMinute() <= curminute){
                     hour = scheduler.timeTable[i].getHour();
-                    if(scheduler.timeTable[i+1].getHour() == curhour){
-                        if(scheduler.timeTable[i+1].getMinute() <= curminute){
-                            minute = scheduler.timeTable[i+1].getMinute();
-                            course = scheduler.timeTable[i+1].getCourse();
-                        }
+//                    Log.e("hour2: "+hour,toString());
+                    if(scheduler.timeTable[i+1].getHour() == curhour && scheduler.timeTable[i+1].getMinute() <= curminute){
+                        minute = scheduler.timeTable[i+1].getMinute();
+                        course = scheduler.timeTable[i+1].getCourse();
+                        return;
+                    }
+                    if(scheduler.timeTable[i].getMinute() <= curminute) {
                         minute = scheduler.timeTable[i].getMinute();
                         course = scheduler.timeTable[i].getCourse();
                     }
                 }
             }
         }
-
     }
 
     public void setCourse(char course){
@@ -173,7 +186,4 @@ public class BusStation implements Station{
     public int getStationLength(){
         return station.length;
     }
-
-
-
 }

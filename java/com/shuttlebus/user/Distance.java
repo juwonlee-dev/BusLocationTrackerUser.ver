@@ -106,8 +106,6 @@ public class Distance implements Station {
         busEnd.setLongitude(end.getLongitude());
 
         dis = busStart.distanceTo(busEnd);
-
-        Log.e("MaxDistance: "+dis,toString());
         return dis;
     }
 

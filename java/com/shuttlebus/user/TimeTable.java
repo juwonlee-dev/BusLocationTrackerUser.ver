@@ -1,5 +1,7 @@
 package com.shuttlebus.user;
 
+import android.util.Log;
+
 public class TimeTable {
     private int hour;
     private int minute;
@@ -20,5 +22,7 @@ public class TimeTable {
     public void setMinute(int minute) { this.minute = minute; }
     public int getMinute(){ return minute; }
     public void setCourse(char course){ this.course = course; }
-    public char getCourse(){return course;}
+    public char getCourse(){
+        return course;
+    }
 }
