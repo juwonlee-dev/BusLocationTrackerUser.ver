@@ -1,4 +1,4 @@
-# BusLocationTrackin(User.ver)
+# BusLocationTracker(User.ver)
 
 ## 서희 스타힐스 아파트 셔틀버스 위치 추적 앱(Bus Location Tracking App)
     서희 스타힐스 아파트 셔틀버스의 위치를 파악하고 셔틀버스 이용을 편리하게 만들어주기 위함.
